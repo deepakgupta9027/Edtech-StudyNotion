@@ -1,4 +1,4 @@
-import React from 'react'
+// import React from 'react'
 import {toast} from "react-hot-toast"
 import { apiConnector } from '../apiconnector';
 import { catalogData } from '../apis';
@@ -18,7 +18,7 @@ export const getCatalogaPageData = async(categoryId) => {
   }
   catch(error) {
     console.log("CATALOG PAGE DATA API ERROR....", error);
-    toast.error(error.message);
+    toast.error(error.response?.data?.message || error.message);
     result = error.response?.data;
   }
   toast.dismiss(toastId);

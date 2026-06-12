@@ -95,7 +95,7 @@ exports.signup = async (req, res) => {
       accountType: accountType,
       approved: approved,
       additionalDetails: profileDetails._id,
-      image: "",
+      image: `https://api.dicebear.com/5.x/initials/svg?seed=${firstName} ${lastName}`,
     })
 
     return res.status(200).json({
@@ -120,7 +120,7 @@ exports.login = async (req, res) => {
 
     // Check if email or password is missing
     if (!email || !password) {
-      // Return 400 Bad Request status code with error message
+      // Return with error message
       return res.status(400).json({
         success: false,
         message: `Please Fill up All the Required Fields`,
@@ -149,7 +149,6 @@ exports.login = async (req, res) => {
         }
       )
 
-      // Save token to user document in database
       user.token = token
       user.password = undefined
       // Set cookie for token and return success response
@@ -212,8 +211,7 @@ exports.sendotp = async (req, res) => {
       })
     }
     const otpPayload = { email, otp }
-    const otpBody = await OTP.create(otpPayload)
-    console.log("OTP Body", otpBody)
+    await OTP.create(otpPayload)
     res.status(200).json({
       success: true,
       message: `OTP Sent Successfully`,
